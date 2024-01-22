@@ -1,5 +1,3 @@
-// console.log(__filename);
-
 const contactsFunctions = require("./contacts.js");
 
 const { Command } = require("commander");
