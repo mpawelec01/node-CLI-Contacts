@@ -16,16 +16,44 @@ const argv = program.opts();
 function invokeAction({ action, id, name, email, phone }) {
   switch (action) {
     case "list":
-      contactsFunctions.listContacts();
+      async function list() {
+        try {
+          await contactsFunctions.listContacts();
+        } catch (err) {
+          console.log(err.message);
+        }
+      }
+      list();
       break;
     case "get":
-      contactsFunctions.getContactById(id);
+      async function get() {
+        try {
+          await contactsFunctions.getContactById(id);
+        } catch (err) {
+          console.log(err.message);
+        }
+      }
+      get();
       break;
     case "add":
-      contactsFunctions.addContact(name, email, phone);
+      async function add() {
+        try {
+          await contactsFunctions.addContact(name, email, phone);
+        } catch (err) {
+          console.log(err.message);
+        }
+      }
+      add();
       break;
     case "remove":
-      contactsFunctions.removeContact(id);
+      async function remove() {
+        try {
+          await contactsFunctions.removeContact(id);
+        } catch (err) {
+          console.log(err.message);
+        }
+      }
+      remove();
       break;
 
     default:

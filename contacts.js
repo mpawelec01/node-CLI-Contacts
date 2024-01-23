@@ -1,15 +1,13 @@
 const fs = require("fs").promises;
 const path = require("node:path");
 require("colors");
+const newUniqueId = require("locally-unique-id-generator");
 
-const contactsPath = path.format({
-  root: "db/",
-  base: "contacts.json",
-});
+const contactsPath = path.resolve("db", "contacts.json");
 
 async function listContacts() {
-  const contacts = await fs.readFile(contactsPath);
   try {
+    const contacts = await fs.readFile(contactsPath);
     const parsedContacts = JSON.parse(contacts);
     console.log("Contacts list:".yellow);
     console.table(parsedContacts);
@@ -19,8 +17,8 @@ async function listContacts() {
 }
 
 async function getContactById(contactId) {
-  const contacts = await fs.readFile(contactsPath);
   try {
+    const contacts = await fs.readFile(contactsPath);
     const parsedContacts = JSON.parse(contacts);
     const searchedContact = parsedContacts.find(
       (contact) => contact.id === contactId
@@ -33,11 +31,11 @@ async function getContactById(contactId) {
 }
 
 async function addContact(name, email, phone) {
-  const contacts = await fs.readFile(contactsPath);
-
   try {
+    const id = newUniqueId();
+    const contacts = await fs.readFile(contactsPath);
     const parsedContacts = JSON.parse(contacts);
-    const newContacts = [...parsedContacts, { name, email, phone }];
+    const newContacts = [...parsedContacts, { id, name, email, phone }];
     await fs.writeFile(contactsPath, JSON.stringify(newContacts));
     console.log("Contact successfully added".yellow);
   } catch (err) {
@@ -46,9 +44,8 @@ async function addContact(name, email, phone) {
 }
 
 async function removeContact(contactId) {
-  const contacts = await fs.readFile(contactsPath);
-
   try {
+    const contacts = await fs.readFile(contactsPath);
     const parsedContacts = JSON.parse(contacts);
     const actualContacts = parsedContacts.filter(
       (contact) => contact.id !== contactId
