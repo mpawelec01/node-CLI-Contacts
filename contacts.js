@@ -1,7 +1,7 @@
 const fs = require("fs").promises;
 const path = require("node:path");
 require("colors");
-const newUniqueId = require("locally-unique-id-generator");
+const { v4: uuidv4 } = require("uuid");
 
 const contactsPath = path.resolve("db", "contacts.json");
 
@@ -13,6 +13,7 @@ async function listContacts() {
     console.table(parsedContacts);
   } catch (err) {
     console.log(err.message);
+    throw err;
   }
 }
 
@@ -27,12 +28,13 @@ async function getContactById(contactId) {
     console.table(searchedContact);
   } catch (err) {
     console.log(err.message);
+    throw err;
   }
 }
 
 async function addContact(name, email, phone) {
   try {
-    const id = newUniqueId();
+    const id = uuidv4();
     const contacts = await fs.readFile(contactsPath);
     const parsedContacts = JSON.parse(contacts);
     const newContacts = [...parsedContacts, { id, name, email, phone }];
@@ -40,6 +42,7 @@ async function addContact(name, email, phone) {
     console.log("Contact successfully added".yellow);
   } catch (err) {
     console.log(err.message);
+    throw err;
   }
 }
 
@@ -54,6 +57,7 @@ async function removeContact(contactId) {
     console.log("Contact successfully removed".yellow);
   } catch (err) {
     console.log(err.message);
+    throw err;
   }
 }
 

@@ -18,7 +18,7 @@
   "dependencies": {
     "colors": "^1.4.0",
     "commander": "^11.1.0",
-    "locally-unique-id-generator": "^0.1.5",
+    "uuid": "^9.0.1",
     "yargs": "^17.7.2"
   }
 }
